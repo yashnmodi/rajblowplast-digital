@@ -1,5 +1,7 @@
 package com.rajblowplast.digital.sms.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
@@ -30,6 +32,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
+        logger.debug("SecurityConfig initialized.");
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
                 // don't authenticate this particular request
@@ -48,11 +51,13 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        logger.debug("AuthenticationManager invoked.");
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        logger.debug("PasswordEncoder invoked.");
         return new BCryptPasswordEncoder();
     }
 

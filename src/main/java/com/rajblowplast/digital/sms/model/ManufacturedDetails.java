@@ -18,7 +18,9 @@ public class ManufacturedDetails {
     private int quantity;
     private String productionTime;
 
-    public ManufacturedDetails(String id, String item, String colour, String weight, String productType, int quantity, String productionTime) {
+    private String shift;
+
+    public ManufacturedDetails(String id, String item, String colour, String weight, String productType, int quantity, String productionTime, String shift) {
         this.id = id;
         this.item = item;
         this.colour = colour;
@@ -26,6 +28,7 @@ public class ManufacturedDetails {
         this.productType = productType;
         this.quantity = quantity;
         this.productionTime = productionTime;
+        this.shift = shift;
     }
 
     public String getId() {
@@ -84,6 +87,14 @@ public class ManufacturedDetails {
         this.productionTime = productionTime;
     }
 
+    public String getShift() {
+        return shift;
+    }
+
+    public void setShift(String shift) {
+        this.shift = shift;
+    }
+
     @Override
     public String toString() {
         return "ManufacturedDetails{" +
@@ -92,6 +103,8 @@ public class ManufacturedDetails {
                 ", weight='" + weight + '\'' +
                 ", productType='" + productType + '\'' +
                 ", quantity=" + quantity +
+                ", productionTime='" + productionTime + '\'' +
+                ", shift='" + shift + '\'' +
                 '}';
     }
 }

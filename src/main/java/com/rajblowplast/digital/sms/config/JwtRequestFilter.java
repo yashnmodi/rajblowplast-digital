@@ -1,8 +1,11 @@
 package com.rajblowplast.digital.sms.config;
 
+import com.rajblowplast.digital.sms.controller.JwtAuthenticationController;
 import com.rajblowplast.digital.sms.service.JwtUserDetailsService;
 import com.rajblowplast.digital.sms.util.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +22,7 @@ import java.io.IOException;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
+    private static final Logger logger = LoggerFactory.getLogger(JwtRequestFilter.class);
 
     @Autowired
     JwtUserDetailsService jwtUserDetailsService;
@@ -32,7 +36,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         String userName=null;
         String jwtToken=null;
-
+        logger.debug("JwtRequestFilter--OncePerRequestFilter started.");
         // JWT Token is in the form "Bearer token". Remove Bearer word and get only the Token
         if (tokenFromRequest != null && tokenFromRequest.startsWith("Bearer ")) {
             jwtToken = tokenFromRequest.substring(7);
@@ -50,7 +54,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         //  Once we get the token validate it and extract username(principal/subject) from it.
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(userName);
+            UserDetails userDetails = this.jwtUserDetailsService.  loadUserByUsername(userName);
 
             // if token is valid configure Spring Security to manually set
             // authentication
