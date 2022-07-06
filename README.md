@@ -1,6 +1,7 @@
 # rajblowplast-digital
 Digital Transformation of RAJ Blow Plast.
-www.rajblowplast,com
+www.rajblowplast.com
+Webapp URL - https://rbp-inventory.herokuapp.com/
 
 Raj Blow Plast Systems has its main components as below.
 1) Public Website App

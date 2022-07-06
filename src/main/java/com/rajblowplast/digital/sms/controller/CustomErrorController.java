@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -59,6 +60,14 @@ public class CustomErrorController implements ErrorController {
         logger.error("Exception.getMessage--{}", e.getMessage());
         Status customStatus = new Status("2","E998", "Sorry! Something went wrong. Please try again.");
         return new ResponseEntity<>(customStatus, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<Status> handleNoHandlerFound(Exception e) {
+        logger.error("Exception.getMessage--{}", e.getMessage());
+        logger.error("Exception.getClass--{}", e.getClass());
+        Status customStatus = new Status("2","E404", "Page not found.");
+        return new ResponseEntity<>(customStatus, HttpStatus.NOT_FOUND);
     }
 
     //fallback method
