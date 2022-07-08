@@ -1,6 +1,7 @@
 package com.rajblowplast.digital.sms.controller;
 
 import com.rajblowplast.digital.sms.model.Status;
+import com.rajblowplast.digital.sms.util.AppConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -9,10 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -31,14 +30,14 @@ public class CustomErrorController implements ErrorController {
             logger.debug("Error thrown -- statusCode {}", statusCode);
             switch (statusCode){
                 case 404:
-                    Status s = new Status("2","404","Page not found.");
+                    Status s = new Status(AppConstants.FRC, AppConstants.E404, AppConstants.E404_MSG);
                     return new ResponseEntity<>(s, HttpStatus.BAD_REQUEST);
                 case 500:
-                    Status s2 = new Status("2","500","Internal Server Error.");
+                    Status s2 = new Status(AppConstants.FRC,"500","Internal Server Error.");
                     return new ResponseEntity<>(s2, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        Status customStatus = new Status("2","E999", "Sorry! Something went wrong. Please try again.");
+        Status customStatus = new Status(AppConstants.FRC,AppConstants.I999, AppConstants.I999_MSG);
         return new ResponseEntity<>(customStatus, HttpStatus.OK);
     }
 
@@ -51,14 +50,14 @@ public class CustomErrorController implements ErrorController {
         String stackTrace = stringWriter.toString(); */
         logger.error("Exception.getMessage--{}", e.getMessage());
         logger.error("Exception.getClass--{}", e.getClass());
-        Status customStatus = new Status("2","E101", "Oops! You have entered invalid username/password.");
+        Status customStatus = new Status(AppConstants.FRC, AppConstants.E401, AppConstants.E401_MSG);
         return new ResponseEntity<>(customStatus, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<Status> handleNullPointer(Exception e){
         logger.error("Exception.getMessage--{}", e.getMessage());
-        Status customStatus = new Status("2","E998", "Sorry! Something went wrong. Please try again.");
+        Status customStatus = new Status(AppConstants.FRC, AppConstants.I999, AppConstants.I999_MSG);
         return new ResponseEntity<>(customStatus, HttpStatus.BAD_REQUEST);
     }
 
@@ -66,7 +65,7 @@ public class CustomErrorController implements ErrorController {
     public ResponseEntity<Status> handleNoHandlerFound(Exception e) {
         logger.error("Exception.getMessage--{}", e.getMessage());
         logger.error("Exception.getClass--{}", e.getClass());
-        Status customStatus = new Status("2","E404", "Page not found.");
+        Status customStatus = new Status(AppConstants.FRC,AppConstants.E404, AppConstants.E404_MSG);
         return new ResponseEntity<>(customStatus, HttpStatus.NOT_FOUND);
     }
 
@@ -75,7 +74,7 @@ public class CustomErrorController implements ErrorController {
     public ResponseEntity<Status> handleFallback(Exception e){
         logger.error("Exception.getMessage--{}", e.getMessage());
         logger.error("Exception.getClass--{}", e.getClass());
-        Status customStatus = new Status("2","E999", "Sorry! Something went wrong. Please try again.");
+        Status customStatus = new Status(AppConstants.FRC, AppConstants.I999, AppConstants.I999_MSG);
         return new ResponseEntity<>(customStatus, HttpStatus.BAD_REQUEST);
     }
 }

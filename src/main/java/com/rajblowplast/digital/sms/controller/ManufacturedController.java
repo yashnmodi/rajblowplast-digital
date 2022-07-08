@@ -35,7 +35,7 @@ public class ManufacturedController {
     public ResponseEntity<?> getAllManufactured(HttpServletRequest request, @RequestBody String body){
         logger.debug("uri = {}", request.getRequestURI());
         Map<String, Object> response = new HashMap<>();
-        HttpHeaders headers = new HttpHeaders();
+        HttpStatus httpStatus = HttpStatus.OK;
         List<ManufacturedDetails> data = new ArrayList<>();
         try {
             JsonNode jsonNode = new ObjectMapper().readTree(body);
@@ -51,36 +51,36 @@ public class ManufacturedController {
                 data = manufactureRepo.findAll();
                 response.put("ManufacturedItems", data);
             } else{
-                response.put("status", new Status("2","001","No data found."));
+                response.put("status", new Status(AppConstants.FRC, AppConstants.I204_MSG, AppConstants.I204_MSG));
             }
         } catch (Exception e) {
            logger.debug("Exception caught at getAllManufactured --- {}", e.getMessage());
+            response.put("status", new Status(AppConstants.FRC, AppConstants.I203, AppConstants.I203_MSG));
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
-        //headers.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<Map>(response, headers, HttpStatus.OK);
+        return new ResponseEntity<Map>(response, httpStatus);
     }
 
     @PostMapping(value = "/manufactured/create",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> addItem(HttpServletRequest request, @RequestBody ManufacturedDetails body){
+    public ResponseEntity<?> createManufacture(HttpServletRequest request, @RequestBody ManufacturedDetails body){
         logger.debug("uri = {}", request.getRequestURI());
         Map<String, Object> response = new HashMap<>();
-        HttpHeaders headers = new HttpHeaders();
-        HttpStatus status;
+        HttpStatus httpStatus = HttpStatus.OK;
         try{
             logger.debug("Request Body -- {}", body.toString());
             LocalDateTime current = LocalDateTime.now();
             body.setProductionTime(current.format(AppConstants.dtf));
             manufactureRepo.save(body);
-            response.put("status", new Status("0","0","Success"));
-            status = HttpStatus.CREATED;
+            response.put("status", new Status(AppConstants.SRC, AppConstants.SEC, AppConstants.I201_MSG));
+            httpStatus = HttpStatus.CREATED;
         } catch (Exception e){
-            logger.debug("Exception caught at addItem --- {}", e.getMessage());
-            response.put("status", new Status("2","002","Failure"));
-            status = HttpStatus.NOT_ACCEPTABLE;
+            logger.debug("Exception caught at createManufacture --- {}", e.getMessage());
+            response.put("status", new Status(AppConstants.FRC, AppConstants.I203, AppConstants.I203_MSG));
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         //headers.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<Map>(response, headers, status);
+        return new ResponseEntity<Map>(response, httpStatus);
     }
 }

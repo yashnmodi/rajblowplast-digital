@@ -1,9 +1,9 @@
 package com.rajblowplast.digital.sms.controller;
 
 import com.rajblowplast.digital.sms.model.Status;
+import com.rajblowplast.digital.sms.util.AppConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +18,13 @@ public class ContextPathController {
 
     Logger logger = LoggerFactory.getLogger(ContextPathController.class);
 
-    @GetMapping("/")
+    @GetMapping(value="/",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> contextRootMethod(){
         logger.debug("contextRoot method");
         Map<String,Object> response = new HashMap<>();
-        response.put("status", new Status("0","0","Success"));
-        Map<String,Object> data = new HashMap<>();
-        data.put("msg1","Hello from Raj Blow Plast!");
-        response.put("data", data);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<Map>(response, headers, HttpStatus.OK);
+        response.put("status", new Status(AppConstants.SRC, AppConstants.SEC, AppConstants.SUCCESS));
+        response.put("data", "Hello from Raj Blow Plast!");
+        return new ResponseEntity<Map>(response, HttpStatus.OK);
     }
 }

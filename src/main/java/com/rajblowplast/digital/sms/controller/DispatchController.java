@@ -37,8 +37,8 @@ public class DispatchController {
     public ResponseEntity<?> getAllDispatched(HttpServletRequest request, @RequestBody String body){
         logger.debug("uri = {}", request.getRequestURI());
         Map<String, Object> response = new HashMap<>();
-        HttpHeaders headers = new HttpHeaders();
         List<DispatchDetails> data = new ArrayList<>();
+        HttpStatus httpStatus = HttpStatus.OK;
         try {
             JsonNode jsonNode = new ObjectMapper().readTree(body);
             logger.debug("Request Body -- {}", jsonNode.toString());
@@ -53,36 +53,36 @@ public class DispatchController {
                 data = dispatchRepo.findAll();
                 response.put("DispatchedItems", data);
             } else{
-                response.put("status", new Status("2","001","No data found."));
+                response.put("status", new Status(AppConstants.FRC, AppConstants.I204_MSG, AppConstants.I204_MSG));
             }
         } catch (Exception e) {
             logger.debug("Exception caught at getAllDispatched --- {}", e.getMessage());
+            response.put("status", new Status(AppConstants.FRC, AppConstants.I203, AppConstants.I203_MSG));
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         //headers.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<Map>(response, headers, HttpStatus.OK);
+        return new ResponseEntity<Map>(response, httpStatus);
     }
 
     @PostMapping(value = "/dispatched/create",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> removeItem(HttpServletRequest request, @RequestBody DispatchDetails body){
+    public ResponseEntity<?> createDispatch(HttpServletRequest request, @RequestBody DispatchDetails body){
         logger.debug("uri = {}", request.getRequestURI());
         Map<String, Object> response = new HashMap<>();
-        HttpHeaders headers = new HttpHeaders();
-        HttpStatus status;
+        HttpStatus httpStatus = HttpStatus.OK;
         try{
             logger.debug("Request Body -- {}", body.toString());
             LocalDateTime current = LocalDateTime.now();
             body.setDispatchTime(current.format(AppConstants.dtf));
             dispatchRepo.save(body);
-            response.put("status", new Status("0","0","Success"));
-            status = HttpStatus.CREATED;
+            response.put("status", new Status(AppConstants.SRC, AppConstants.SEC, AppConstants.I201_MSG));
+            httpStatus = HttpStatus.CREATED;
         } catch (Exception e){
-            logger.debug("Exception caught at removeItem --- {}", e.getMessage());
-            response.put("status", new Status("2","002","Failure"));
-            status = HttpStatus.NOT_ACCEPTABLE;
+            logger.debug("Exception caught at createDispatch --- {}", e.getMessage());
+            response.put("status", new Status(AppConstants.FRC, AppConstants.I203, AppConstants.I203_MSG));
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
-        //headers.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<Map>(response, headers, status);
+        return new ResponseEntity<Map>(response, httpStatus);
     }
 }
