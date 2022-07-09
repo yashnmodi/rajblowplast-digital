@@ -2,7 +2,7 @@ package com.rajblowplast.digital.sms.model;
 
 import java.io.Serializable;
 
-public class JwtResponse implements Serializable {
+public class LoginResponse implements Serializable {
 
     private static final long serialVersionUID = -8091879091924046844L;
 
@@ -18,8 +18,7 @@ public class JwtResponse implements Serializable {
         this.username = username;
     }
 
-    public JwtResponse(Status s, String name, String jwttoken) {
-        this.status = s;
+    public LoginResponse(String name, String jwttoken) {
         this.username = name;
         this.jwttoken = jwttoken;
     }

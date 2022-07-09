@@ -1,7 +1,7 @@
 package com.rajblowplast.digital.sms.config;
 
-import com.rajblowplast.digital.sms.controller.JwtAuthenticationController;
 import com.rajblowplast.digital.sms.service.JwtUserDetailsService;
+import com.rajblowplast.digital.sms.util.EncryptionUtil;
 import com.rajblowplast.digital.sms.util.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
@@ -35,11 +35,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String tokenFromRequest = request.getHeader("Authorization");
 
         String userName=null;
+        String encryptedJwtToken=null;
         String jwtToken=null;
-        logger.debug("JwtRequestFilter--OncePerRequestFilter started.");
+        logger.debug("Inside JwtRequestFilter--OncePerRequestFilter");
         // JWT Token is in the form "Bearer token". Remove Bearer word and get only the Token
         if (tokenFromRequest != null && tokenFromRequest.startsWith("Bearer ")) {
-            jwtToken = tokenFromRequest.substring(7);
+            encryptedJwtToken = tokenFromRequest.substring(7);
+            jwtToken = EncryptionUtil.decrypt(encryptedJwtToken);
             try {
                 userName = jwtTokenUtil.getUserNameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
@@ -54,7 +56,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         //  Once we get the token validate it and extract username(principal/subject) from it.
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = this.jwtUserDetailsService.  loadUserByUsername(userName);
+            UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(userName);
 
             // if token is valid configure Spring Security to manually set
             // authentication

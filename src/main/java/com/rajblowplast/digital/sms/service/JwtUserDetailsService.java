@@ -6,6 +6,7 @@ import com.rajblowplast.digital.sms.repository.UsersRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class JwtUserDetailsService implements UserDetailsService {
@@ -24,10 +27,12 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.debug("---loadUserByUsername called.---");
-        AppUsers user = usersRepo.findByUsername(username);
-        if(null != user && user.getUsername().equals(username)){
-            return new User(user.getUsername(), user.getPassword(), new ArrayList<>());
+        logger.info("---loadUserByUsername called.---");
+        AppUsers appUser = usersRepo.findByUsername(username);
+        if(null != appUser && appUser.getUsername().equals(username)){
+            Set<SimpleGrantedAuthority> authorities = new HashSet<>(1);
+            authorities.add(new SimpleGrantedAuthority(appUser.getRole()));
+            return new User(appUser.getUsername(), appUser.getPassword(),true,true,true,!appUser.isLocked(), authorities);
         } else {
             throw new UsernameNotFoundException("User "+username+" not found.");
         }

@@ -16,15 +16,18 @@ public class AppUsers {
     private String password;
     private String mobileNo;
     private String role;
+    private boolean locked;
+    private String lastLoginDate;
 
     public AppUsers() {
     }
 
-    public AppUsers(String username, String password, String mobileNo, String role) {
+    public AppUsers(String username, String password, String mobileNo, String role, boolean locked) {
         this.username = username;
         this.password = password;
         this.mobileNo = mobileNo;
         this.role = role;
+        this.locked = locked;
     }
 
     public String getId() {
@@ -67,13 +70,30 @@ public class AppUsers {
         this.role = role;
     }
 
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public String getLastLoginDate() {
+        return lastLoginDate;
+    }
+
+    public void setLastLoginDate(String lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
+    }
+
     @Override
     public String toString() {
         return "AppUsers{" +
                 "username='" + username + '\'' +
-                ", password=" + password +
+                ", password='" + password + '\'' +
                 ", mobileNo='" + mobileNo + '\'' +
                 ", role='" + role + '\'' +
+                ", locked=" + locked +
                 '}';
     }
 }
