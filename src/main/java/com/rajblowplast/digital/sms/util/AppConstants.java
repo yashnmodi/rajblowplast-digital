@@ -27,6 +27,8 @@ public class AppConstants {
     public static final String I205_MSG="item already present";
     public static final String E401="E401";
     public static final String E401_MSG="Oops! You have entered invalid username/password.";
+    public static final String E402="E402";
+    public static final String E402_MSG="User already exists!";
     public static final String E404="E404";
     public static final String E404_MSG="page not found.";
     public static final String I999="I999";

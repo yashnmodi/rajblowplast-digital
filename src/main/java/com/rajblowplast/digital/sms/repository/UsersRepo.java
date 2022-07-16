@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface UsersRepo extends MongoRepository<AppUsers, String> {
     @Query(value = "{username: '?0'}")
     AppUsers findByUsername(String username);
+
+    @Query
+    boolean existsByEmail(String email);
 }

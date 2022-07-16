@@ -15,8 +15,10 @@ public class AppUsers {
     private String username;
     private String password;
     private String mobileNo;
+    private String email;
     private String role;
     private boolean locked;
+    private String registrationDate;
     private String lastLoginDate;
 
     public AppUsers() {
@@ -86,14 +88,33 @@ public class AppUsers {
         this.lastLoginDate = lastLoginDate;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(String registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
     @Override
     public String toString() {
         return "AppUsers{" +
-                "username='" + username + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", mobileNo='" + mobileNo + '\'' +
+                ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
                 ", locked=" + locked +
+                ", registrationDate='" + registrationDate + '\'' +
+                ", lastLoginDate='" + lastLoginDate + '\'' +
                 '}';
     }
 }
