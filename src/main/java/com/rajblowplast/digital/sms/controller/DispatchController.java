@@ -35,7 +35,6 @@ public class DispatchController {
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getAllDispatched(HttpServletRequest request, @RequestBody String body){
-        logger.debug("uri = {}", request.getRequestURI());
         Map<String, Object> response = new HashMap<>();
         List<DispatchDetails> data = new ArrayList<>();
         HttpStatus httpStatus = HttpStatus.OK;
@@ -68,7 +67,6 @@ public class DispatchController {
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> createDispatch(HttpServletRequest request, @RequestBody DispatchDetails body){
-        logger.debug("uri = {}", request.getRequestURI());
         Map<String, Object> response = new HashMap<>();
         HttpStatus httpStatus = HttpStatus.OK;
         try{

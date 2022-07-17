@@ -34,7 +34,6 @@ public class ItemsController {
     @GetMapping(value="/items",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> fetchItems(HttpServletRequest request){
-        logger.debug("uri = {}", request.getRequestURI());
         Map<String, Object> response = new HashMap<>();
         HttpHeaders headers = new HttpHeaders();
         HttpStatus httpStatus = HttpStatus.OK;
@@ -56,7 +55,6 @@ public class ItemsController {
     @PostMapping(value="/items/create",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> createItem(HttpServletRequest request, @RequestBody String body){
-        logger.debug("uri = {}", request.getRequestURI());
         Map<String, Object> response = new HashMap<>();
         HttpStatus httpStatus = HttpStatus.OK;
         try {
@@ -100,7 +98,6 @@ public class ItemsController {
     @PostMapping(value="/items/remove",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> removeItem(HttpServletRequest request, @RequestBody String body){
-        logger.debug("uri = {}", request.getRequestURI());
         Map<String, Object> response = new HashMap<>();
         HttpStatus httpStatus = HttpStatus.OK;
         try {

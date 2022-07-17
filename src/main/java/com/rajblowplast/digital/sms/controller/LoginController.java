@@ -45,7 +45,6 @@ public class LoginController {
 
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(HttpServletRequest request, @RequestBody LoginRequest loginRequest) throws Exception {
-        logger.debug("uri = {}", request.getRequestURI());
         String password = request.getHeader("x-pass");
         authenticate(loginRequest.getUsername(), password);
         final UserDetails userDetails = jwtUserDetailsService
@@ -72,7 +71,6 @@ public class LoginController {
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> createNewUser(HttpServletRequest request, @RequestBody AppUsers registration) throws Exception {
-        logger.debug("uri = {}", request.getRequestURI());
         AppUsers userRegistration = new AppUsers();
         Status status = new Status();
         if(!usersRepo.existsByEmail(registration.getEmail())){

@@ -33,7 +33,6 @@ public class ManufacturedController {
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getAllManufactured(HttpServletRequest request, @RequestBody String body){
-        logger.debug("uri = {}", request.getRequestURI());
         Map<String, Object> response = new HashMap<>();
         HttpStatus httpStatus = HttpStatus.OK;
         List<ManufacturedDetails> data = new ArrayList<>();
@@ -65,7 +64,6 @@ public class ManufacturedController {
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> createManufacture(HttpServletRequest request, @RequestBody ManufacturedDetails body){
-        logger.debug("uri = {}", request.getRequestURI());
         Map<String, Object> response = new HashMap<>();
         HttpStatus httpStatus = HttpStatus.OK;
         try{
