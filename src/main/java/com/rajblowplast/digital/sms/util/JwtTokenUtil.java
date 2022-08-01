@@ -19,7 +19,7 @@ import java.util.function.Function;
 public class JwtTokenUtil implements Serializable {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
     private static final long serialVersionUID = 7383112237L;
-    public static final int JWT_TOKEN_VALIDITY = 5*60*60;
+    public static final int JWT_TOKEN_VALIDITY = 10*60;         // 10 minutes
 
     @Value("${jwt.secret}")
     private String secret;

@@ -11,11 +11,12 @@ public class AppConstants {
     
     //common error-messages
     public static final String SRC="0";
+    public static final String ARC="1";
+    public static final String ARC_MSG="Authentication required.";
     public static final String FRC="2";
     public static final String SEC="0";
     public static final String FEC="2";
     public static final String SUCCESS="success";
-    public static final String I201="I201";
     public static final String I201_MSG="operation successful";
     public static final String I202="I202";
     public static final String I202_MSG="invalid item details";

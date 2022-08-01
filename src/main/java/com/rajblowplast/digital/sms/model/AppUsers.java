@@ -17,9 +17,10 @@ public class AppUsers {
     private String mobileNo;
     private String email;
     private String role;
+    private boolean loggedIn;
+    private String lastLoginDate;
     private boolean locked;
     private String registrationDate;
-    private String lastLoginDate;
 
     public AppUsers() {
     }
@@ -70,6 +71,14 @@ public class AppUsers {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
 
     public boolean isLocked() {
